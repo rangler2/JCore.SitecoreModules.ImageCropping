@@ -186,14 +186,17 @@ namespace JCore.SitecoreModules.ImageCropping.Data.Fields
                     {
                         XmlValue.SetAttribute("mediaid", mediaItem.ID.ToString());
                         var croppingOption = GetCroppingOption();
-                        var cropRegion = ProduceCropRegionXmlAttributeValueFromAnOption(mediaItem, croppingOption);
-                        if (!string.IsNullOrWhiteSpace(cropRegion))
+                        if (croppingOption != null)
                         {
-                            XmlValue.SetAttribute("cropregion", cropRegion);
-                            XmlValue.SetAttribute("ratio", string.Concat(croppingOption.Width, ":", croppingOption.Height));
+                            var cropRegion = ProduceCropRegionXmlAttributeValueFromAnOption(mediaItem, croppingOption);
+                            if (!string.IsNullOrWhiteSpace(cropRegion))
+                            {
+                                XmlValue.SetAttribute("cropregion", cropRegion);
+                                XmlValue.SetAttribute("ratio", string.Concat(croppingOption.Width, ":", croppingOption.Height));
+                            }
+                            XmlValue.SetAttribute("width", croppingOption.Width.ToString());
+                            XmlValue.SetAttribute("height", croppingOption.Height.ToString());
                         }
-                        XmlValue.SetAttribute("width", croppingOption.Width.ToString());
-                        XmlValue.SetAttribute("height", croppingOption.Height.ToString());
                         Value = mediaItem.MediaPath;
                         Update();
                         SetModified();
